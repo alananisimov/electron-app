@@ -6,20 +6,22 @@ class Logger {
         this.path = path;
         this.enable = enable
 
-        this.logo = [
-           `███████╗ ███████╗ ███████╗ ██████╗  ███████╗ 
+        this.logo = 
+           `
+            ███████╗ ███████╗ ███████╗ ██████╗  ███████╗ 
             ██╔════╝ ╚══███╔╝ ██╔════╝ ██╔══██╗ ██╔════╝ 
             █████╗     ███╔╝  █████╗   ██████╔╝ ███████╗
             ██╔══╝    ███╔╝   ██╔══╝   ██╔═══╝  ╚════██║
             ███████╗ ███████╗ ██║      ██║      ███████║
-            ╚══════╝ ╚══════╝ ╚═╝      ╚═╝      ╚══════╝`
-        ]
+            ╚══════╝ ╚══════╝ ╚═╝      ╚═╝      ╚══════╝
+            `
+        
     }
 
     startSession() {
         if (!this.enable) { return; };
 
-        let data = this.logo.join("\n");
+        let data = this.logo
         data += `\n\nLogSession\n - Time: ${Date()}\n - Start: SUCCESS`;
         data += `\n\nOS\n - Type: ${os.type()}\n - Release: ${os.release()}\n - Platform: ${os.platform()}\n\nOutput:\n`;
         

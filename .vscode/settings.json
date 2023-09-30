@@ -1,5 +1,10 @@
 {
-    "cSpell.words": [
-        "Titlebar"
-    ]
+  "cSpell.words": [
+    "downloadexec",
+    "Titlebar"
+  ],
+  "nuxt.isNuxtApp": false,
+  "files.associations": {
+    "fstream": "cpp"
+  }
 }
