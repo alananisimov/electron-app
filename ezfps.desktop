@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=ezfps Optimizer
+Comment=Best app for PC optimizing
+Exec=your-application
+Icon=com.example.YourApplication
+Keywords=various;keywords;describing;your;application;
+StartupNotify=true
+Terminal=false

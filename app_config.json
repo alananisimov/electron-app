@@ -1,0 +1,20 @@
+{
+    "execUrlWindows": "https://launcher.ezfps.store/clearSystemWindows",
+    "execUrlLinux": "https://www.ezfps.store/clearSystemLinux",
+    "execUrlMacos": "https://launcher.ezfps.store/clearSystemMacos",
+    "Linux": {
+        "mode": "easy",
+        "dota_path": "~/.steam/steam/SteamApps/common/dota 2 beta",
+        "cs_path": "~/.steam/steam/SteamApps/common/Counter-Strike Global Offensive"
+    },
+    "Darwin": {
+        "mode": "easy",
+        "dota_path": "/Users/$USER/Library/Application Support/Steam/steamapps/common/dota 2 beta",
+        "cs_path": "/Users/$USER/Library/Application Support/Steam/steamapps/common/Counter-Strike Global Offensive",
+    },
+    "Windows_NT": {
+        "mode": "easy",
+        "dota_path": "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta",
+        "cs_path": "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive"
+    }
+}
