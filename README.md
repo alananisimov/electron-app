@@ -1,6 +1,6 @@
 # ezfps electron app
 
-📱 ezfps electron app with Logging system and optimization system based on powershell scripts
+Backend electron.js application for downloading exec scripts, to interact with user config. Written in typescript.
 
 
 ## Authors
