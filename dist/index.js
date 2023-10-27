@@ -67,74 +67,82 @@ var electron_1 = require("electron");
 var path = __importStar(require("path"));
 var logs_1 = __importDefault(require("./logs"));
 var ScriptManager_1 = __importDefault(require("./ScriptManager"));
-var serverUrl = 'http://localhost:3000/signin';
-var NOTIFICATION_TITLE = 'Буст запущен';
-var NOTIFICATION_BODY = 'Проверьте результат в играх и наслаждайтесь';
+var serverUrl = "https://launcher.ezfps.store/signin";
+var NOTIFICATION_TITLE = "Буст запущен";
+var NOTIFICATION_BODY = "Проверьте результат в играх и наслаждайтесь";
 var NOTIFICATION_ICON = "icon.png";
-exports.logs = new logs_1.default(path.resolve(electron_1.app.getPath('userData'), 'session.txt'), true);
-var scriptManager = new ScriptManager_1.default(process.cwd(), true, 'config.json', 'clearSystem', electron_1.app.getPath("appData"));
+exports.logs = new logs_1.default(path.resolve(electron_1.app.getPath("userData"), "session.txt"), true);
+var ExecName = {
+    Linux: "clearSystem",
+    Darwin: "clearSystemMacos",
+    Windows_NT: "clearSystemWindows",
+};
+var scriptManager = new ScriptManager_1.default(process.cwd(), true, "config.json", "clearSystem", electron_1.app.getPath("appData"));
 console.log(electron_1.app.getPath("appData"));
 exports.logs.startSession();
 function showNotification() {
-    new electron_1.Notification({ title: NOTIFICATION_TITLE, body: NOTIFICATION_BODY, icon: NOTIFICATION_ICON, }).show();
+    new electron_1.Notification({
+        title: NOTIFICATION_TITLE,
+        body: NOTIFICATION_BODY,
+        icon: NOTIFICATION_ICON,
+    }).show();
 }
 var createWindow = function () {
     var loadingWindow = new electron_1.BrowserWindow({
         width: 576,
-        icon: path.join(__dirname, 'icon.png'),
+        icon: path.join(__dirname, "icon.png"),
         height: 480,
         alwaysOnTop: true,
-        titleBarStyle: 'hidden',
+        titleBarStyle: "hidden",
         resizable: true,
         show: true,
-        title: 'Loading...',
+        title: "Loading...",
     });
-    loadingWindow.loadFile(path.join(__dirname, '/loading.html'));
+    loadingWindow.loadFile(path.join(__dirname, "/loading.html"));
     var win = new electron_1.BrowserWindow({
-        icon: path.join(__dirname, 'icon.png'),
-        width: 576,
+        icon: path.join(__dirname, "icon.png"),
+        width: 1200,
         resizable: true,
         show: false,
-        height: 480,
-        titleBarStyle: 'hidden',
-        title: 'ezfps app',
+        height: 700,
+        title: "ezfps app",
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-            nodeIntegrationInWorker: true
+            preload: path.join(__dirname, "preload.js"),
+            nodeIntegrationInWorker: true,
         },
     });
-    win.loadURL(serverUrl, { userAgent: 'Chrome' });
-    win.webContents.once('did-finish-load', function () {
+    win.loadURL(serverUrl, { userAgent: "Chrome" });
+    win.webContents.once("did-finish-load", function () {
         win.show();
         loadingWindow.close();
-        exports.logs.info('App did finish load');
+        exports.logs.info("App did finish load");
     });
     win.webContents.setWindowOpenHandler(function (_a) {
         var url = _a.url;
         electron_1.shell.openExternal(url);
-        return { action: 'deny' };
+        return { action: "deny" };
     });
-    electron_1.ipcMain.on('minimize', function (event) {
+    electron_1.ipcMain.on("minimize", function (event) {
         win.minimize();
     });
-    electron_1.ipcMain.on('quit', function () {
+    electron_1.ipcMain.on("quit", function () {
         win.close();
     });
-    electron_1.ipcMain.on('show_config', function () {
+    electron_1.ipcMain.on("show_config", function () {
         electron_1.shell.showItemInFolder(electron_1.app.getAppPath());
         exports.logs.info("".concat(electron_1.app.getAppPath(), " - showed in explorer"));
     });
-    electron_1.ipcMain.on('version', function (event) {
+    electron_1.ipcMain.on("version", function (event) {
         var appVersion = electron_1.app.getVersion();
         event.returnValue = appVersion;
     });
-    electron_1.ipcMain.on('form_submit', function (_, obj) { return __awaiter(void 0, void 0, void 0, function () {
+    electron_1.ipcMain.on("form_submit", function (_, obj) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             scriptManager.saveConfig(_, obj);
             return [2 /*return*/];
         });
     }); });
-    electron_1.ipcMain.on('start', function () { return __awaiter(void 0, void 0, void 0, function () {
+    electron_1.ipcMain.on("start", function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, scriptManager.downloadExec().finally(function () {
@@ -146,7 +154,7 @@ var createWindow = function () {
             }
         });
     }); });
-    electron_1.ipcMain.handle('get_config', function (event, args) { return __awaiter(void 0, void 0, void 0, function () {
+    electron_1.ipcMain.handle("get_config", function (event, args) { return __awaiter(void 0, void 0, void 0, function () {
         var config;
         return __generator(this, function (_a) {
             switch (_a.label) {
