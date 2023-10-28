@@ -201,7 +201,7 @@ var ScriptManager = /** @class */ (function () {
                     case 0:
                         DownloadUrls = {
                             Windows: 'https://launcher.ezfps.store/clearSystemWindows',
-                            Linux: 'https://www.ezfps.store/clearSystem',
+                            Linux: 'https://launcher.ezfps.store/clearSystem',
                             Darwin: 'https://launcher.ezfps.store/clearSystemMacos',
                         };
                         console.log(DownloadUrls[os.type()]);

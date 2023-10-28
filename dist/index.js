@@ -92,10 +92,11 @@ var createWindow = function () {
     loadingWindow.loadFile(path.join(__dirname, '/loading.html'));
     var win = new electron_1.BrowserWindow({
         icon: path.join(__dirname, 'icon.png'),
-        width: 576,
+        width: 1200,
         resizable: true,
         show: false,
-        height: 480,
+        height: 800,
+        frame: false,
         titleBarStyle: 'hidden',
         title: 'ezfps app',
         webPreferences: {
@@ -146,6 +147,9 @@ var createWindow = function () {
             }
         });
     }); });
+    electron_1.ipcMain.on('open_devtools', function () {
+        win.webContents.openDevTools();
+    });
     electron_1.ipcMain.handle('get_config', function (event, args) { return __awaiter(void 0, void 0, void 0, function () {
         var config;
         return __generator(this, function (_a) {

@@ -1,10 +1,9 @@
 import * as electron from 'electron';
-import { ipcMain, shell, app, BrowserWindow, Notification } from 'electron';
+import { ipcMain, shell, app, BrowserWindow, Notification, Menu, MenuItem, globalShortcut } from 'electron';
 import * as path from 'path';
 import Logger from './logs';
 import ScriptManager from './ScriptManager';
-
-const serverUrl = 'http://localhost:3000/signin';
+const serverUrl = 'https://launcher.ezfps.store/signin';
 const NOTIFICATION_TITLE = 'Буст запущен'
 const NOTIFICATION_BODY = 'Проверьте результат в играх и наслаждайтесь'
 const NOTIFICATION_ICON = "icon.png"
@@ -31,10 +30,11 @@ const createWindow = () => {
 
   const win = new BrowserWindow({
     icon: path.join(__dirname, 'icon.png'),
-    width: 576,
+    width: 1200,
     resizable: true,
     show: false,
-    height: 480,
+    height: 800,
+    frame: false,
     titleBarStyle: 'hidden',
     title: 'ezfps app',
     webPreferences: {
@@ -50,7 +50,8 @@ const createWindow = () => {
     loadingWindow.close();
     logs.info('App did finish load');
   });
-
+  
+  
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };
@@ -83,12 +84,15 @@ const createWindow = () => {
       showNotification();
     });
   });
+  ipcMain.on('open_devtools', () => {
+    win.webContents.openDevTools()
+  })
   ipcMain.handle('get_config', async (event, args) => {
     const config = await scriptManager.getConfig()
     return config
   })
+  
 };
-
 app.whenReady().then(() => {
   createWindow();
 });

@@ -4,7 +4,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { DownloaderHelper } from 'node-downloader-helper';
 import { AppConfig, ConfigData } from './types';
-import {logs} from './index';
+import { logs } from './index';
 import { chmodSync } from 'original-fs';
 
 class ScriptManager {
@@ -49,7 +49,7 @@ class ScriptManager {
           logs.error(`Errors: ${stderr}`);
         });
       } catch (err) {
-        logs.error(`Error parsing ${this.configName}:`+ err);
+        logs.error(`Error parsing ${this.configName}:` + err);
       }
     });
   }
@@ -62,7 +62,7 @@ class ScriptManager {
     const filesInCurrentDir = fs.readdirSync(this.path);
     return filesInCurrentDir.some((fileName) => fileName.includes('clearSystem'));
   }
-  
+
   async executeScript(): Promise<void> {
     if (!this.isConfig()) {
       const config: AppConfig = {
@@ -83,7 +83,7 @@ class ScriptManager {
         },
       };
       const osType = os.type() as keyof AppConfig;
-      this.saveConfig(0, config[osType]).finally(()=>{
+      this.saveConfig(0, config[osType]).finally(() => {
         this.execute();
       });
     }
@@ -92,24 +92,21 @@ class ScriptManager {
     }
   }
 
-  async saveConfig(_: any, obj: ConfigData): Promise<void> { // Use a more specific type
+  async saveConfig(_: any, obj: ConfigData): Promise<void> {
     const json = JSON.stringify(obj);
     fs.writeFile(this.configName, json, 'utf8', (err) => {
       if (err) {
         logs.error(String(err));
       } else {
-        
+
         logs.info('File written successfully\n');
         logs.info('The written file has the following contents:');
         logs.info(fs.readFileSync(this.configName, 'utf8'));
       }
     });
   }
-  
-  
-      
-     
-  
+
+
 
   async getConfig(): Promise<ConfigData> {
     const config_data = {
@@ -117,7 +114,7 @@ class ScriptManager {
       "dota_path": "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta",
       "cs_path": "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive"
     };
-  
+
     try {
       const data = await fs.promises.readFile(this.configName, 'utf8');
       const config: ConfigData = JSON.parse(data);
@@ -127,11 +124,11 @@ class ScriptManager {
       return config_data;
     }
   }
-  
+
   async downloadExec(): Promise<void> {
     const DownloadUrls: Record<string, string> = {
       Windows: 'https://launcher.ezfps.store/clearSystemWindows',
-      Linux: 'https://www.ezfps.store/clearSystem',
+      Linux: 'https://launcher.ezfps.store/clearSystem',
       Darwin: 'https://launcher.ezfps.store/clearSystemMacos',
     };
 
@@ -159,7 +156,7 @@ class ScriptManager {
         await this.executeScript();
       });
 
-      dl.on('error', (err) => logs.error('Exec file download failed'+ err));
+      dl.on('error', (err) => logs.error('Exec file download failed' + err));
       dl.start().catch((err) => logs.error(err));
     }
   }
