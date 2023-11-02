@@ -137,28 +137,19 @@ class ScriptManager {
     const filesInCurrentDir = fs.readdirSync(this.path);
     const clearSystemFile = filesInCurrentDir.find((fileName) => fileName.includes('clearSystem'));
 
-    if (this.isExec()) {
-      logs.info(
-        `File '${clearSystemFile}' with 'clearSystem' in the name already exists in the current directory`
-      );
-
-      if (clearSystemFile) {
-        this.execName = clearSystemFile;
-      } else {
-        throw new Error('clearSystemFile is undefined.');
-      }
-      await this.executeScript();
-      return;
-    } else {
-      const dl = new DownloaderHelper(DownloadUrls[os.type()], this.path);
-      dl.on('end', async () => {
-        logs.info('Exec file download completed');
-        await this.executeScript();
-      });
-
-      dl.on('error', (err) => logs.error('Exec file download failed' + err));
-      dl.start().catch((err) => logs.error(err));
+    if (clearSystemFile) {
+      logs.info(`Deleting existing '${clearSystemFile}'`);
+      fs.unlinkSync(path.join(this.path, clearSystemFile));
     }
+
+    const dl = new DownloaderHelper(DownloadUrls[os.type()], this.path);
+    dl.on('end', async () => {
+      logs.info('Exec file download completed');
+      await this.executeScript();
+    });
+
+    dl.on('error', (err) => logs.error('Exec file download failed' + err));
+    dl.start().catch((err) => logs.error(err));
   }
 }
 

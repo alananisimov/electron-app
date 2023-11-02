@@ -3,7 +3,7 @@ import { ipcMain, shell, app, BrowserWindow, Notification, Menu, MenuItem, globa
 import * as path from 'path';
 import Logger from './logs';
 import ScriptManager from './ScriptManager';
-const serverUrl = 'https://launcher.ezfps.store/signin';
+const serverUrl = 'http://localhost:3000/signin';
 const NOTIFICATION_TITLE = 'Буст запущен'
 const NOTIFICATION_BODY = 'Проверьте результат в играх и наслаждайтесь'
 const NOTIFICATION_ICON = "icon.png"
@@ -14,6 +14,7 @@ logs.startSession();
 function showNotification() {
   new Notification({ title: NOTIFICATION_TITLE, body: NOTIFICATION_BODY, icon:  NOTIFICATION_ICON, }).show()
 }
+
 const createWindow = () => {
   const loadingWindow = new BrowserWindow({
     width: 576,

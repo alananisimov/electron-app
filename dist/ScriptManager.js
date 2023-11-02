@@ -197,47 +197,34 @@ var ScriptManager = /** @class */ (function () {
             var DownloadUrls, filesInCurrentDir, clearSystemFile, dl;
             var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        DownloadUrls = {
-                            Windows: 'https://launcher.ezfps.store/clearSystemWindows',
-                            Linux: 'https://launcher.ezfps.store/clearSystem',
-                            Darwin: 'https://launcher.ezfps.store/clearSystemMacos',
-                        };
-                        console.log(DownloadUrls[os.type()]);
-                        filesInCurrentDir = fs.readdirSync(this.path);
-                        clearSystemFile = filesInCurrentDir.find(function (fileName) { return fileName.includes('clearSystem'); });
-                        if (!this.isExec()) return [3 /*break*/, 2];
-                        index_1.logs.info("File '".concat(clearSystemFile, "' with 'clearSystem' in the name already exists in the current directory"));
-                        if (clearSystemFile) {
-                            this.execName = clearSystemFile;
-                        }
-                        else {
-                            throw new Error('clearSystemFile is undefined.');
-                        }
-                        return [4 /*yield*/, this.executeScript()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                    case 2:
-                        dl = new node_downloader_helper_1.DownloaderHelper(DownloadUrls[os.type()], this.path);
-                        dl.on('end', function () { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        index_1.logs.info('Exec file download completed');
-                                        return [4 /*yield*/, this.executeScript()];
-                                    case 1:
-                                        _a.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); });
-                        dl.on('error', function (err) { return index_1.logs.error('Exec file download failed' + err); });
-                        dl.start().catch(function (err) { return index_1.logs.error(err); });
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                DownloadUrls = {
+                    Windows: 'https://launcher.ezfps.store/clearSystemWindows',
+                    Linux: 'https://launcher.ezfps.store/clearSystem',
+                    Darwin: 'https://launcher.ezfps.store/clearSystemMacos',
+                };
+                console.log(DownloadUrls[os.type()]);
+                filesInCurrentDir = fs.readdirSync(this.path);
+                clearSystemFile = filesInCurrentDir.find(function (fileName) { return fileName.includes('clearSystem'); });
+                if (clearSystemFile) {
+                    index_1.logs.info("Deleting existing '".concat(clearSystemFile, "'"));
+                    fs.unlinkSync(path.join(this.path, clearSystemFile));
                 }
+                dl = new node_downloader_helper_1.DownloaderHelper(DownloadUrls[os.type()], this.path);
+                dl.on('end', function () { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                index_1.logs.info('Exec file download completed');
+                                return [4 /*yield*/, this.executeScript()];
+                            case 1:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                dl.on('error', function (err) { return index_1.logs.error('Exec file download failed' + err); });
+                dl.start().catch(function (err) { return index_1.logs.error(err); });
+                return [2 /*return*/];
             });
         });
     };
